@@ -7,8 +7,8 @@ const privateKey = process.env.PRIVATE_KEY || ""
 module.exports = {
   solidity: "0.8.9",
   networks: {
-    polygon_mumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.API_KEY}`,
+    polygon: {
+      url: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.API_KEY}`,
       accounts: [`0x${privateKey}`]
     }
   }

@@ -14,8 +14,8 @@ contract Arbitrage is IFlashLoanRecipient {
     address public owner;
 
     constructor(address _sRouter, address _uRouter) {
-        sRouter = IUniswapV2Router02(_sRouter); // Sushiswap
-        uRouter = IUniswapV2Router02(_uRouter); // Uniswap
+        sRouter = IUniswapV2Router02(_sRouter); 
+        uRouter = IUniswapV2Router02(_uRouter);
         owner = msg.sender;
     }
 
