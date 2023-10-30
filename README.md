@@ -55,6 +55,34 @@ Sometimes the deployed address may be different when testing, and therefore you'
 In another terminal run:
 `npx hardhat run scripts/manipulate.js --network localhost`
 
+
+### About Arbitrage Contract
+It imports necessary interfaces for interacting with the Balancer vault, handling flash loans, and Uniswap v2 router.
+
+The contract is declared and named "Arbitrage," and it implements the "IFlashLoanRecipient" interface, which allows it to receive flash loans from the Balancer vault.
+
+An instance of the Balancer vault, represented by the "vault" variable, is initialized with a specific contract address (0xBA12222222228d8Ba445958a75a0704d566BF2C8).
+
+The contract has two Uniswap v2 router instances, "sRouter" and "uRouter," which are used for interacting with Uniswap and Sushiswap, respectively.
+
+There's an "owner" variable to keep track of the address that deployed the contract.
+
+The constructor function takes two addresses as arguments, representing the Uniswap and Sushiswap routers, and initializes the contract with these values. It also sets the contract's owner as the sender of the transaction.
+
+The "executeTrade" function is the main entry point for the arbitrage operation. It takes several parameters:
+
+"_startOnUniswap" (a boolean indicating whether to start on Uniswap or Sushiswap)
+"_token0" (the address of the first token in the trading pair)
+"_token1" (the address of the second token in the trading pair)
+"_flashAmount" (the amount of tokens to flash loan)
+This function prepares the required data for a flash loan, including the tokens, amounts, and user data. It then calls the "flashLoan" function on the "vault" instance to initiate the flash loan.
+
+The "receiveFlashLoan" function is called by the Balancer vault when the flash loan is provided. It receives the loaned tokens, amounts, fees, and user data. The function performs the arbitrage trading and swaps tokens between Uniswap and Sushiswap, depending on the "_startOnUniswap" parameter.
+
+Two internal functions, "_swapOnUniswap" and "_swapOnSushiswap," are used to execute token swaps on the respective exchanges. They use the Uniswap and Sushiswap routers to perform token swaps.
+
+After executing the arbitrage trade, any remaining tokens are transferred back to the Balancer vault, and any remaining token0 is transferred to the contract owner's address.
+
 ## About config.json
 Inside the *config.json* file, under the PROJECT_SETTINGS object, there are 2 keys that hold a boolean value:
 - isLocal
